@@ -10,7 +10,7 @@ import InterViewHistory from "./pages/InterViewHistory";
 import InterviewReport from "./pages/InterviewReport";
 import Pricing from "./pages/Pricing";
 
-export const serverUrl = "http://localhost:3000";
+export const serverUrl = "https://interviewiq-4lnb.onrender.com";
 
 const App = () => {
   const dispatch = useDispatch();
