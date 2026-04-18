@@ -115,10 +115,6 @@ const Navbar = () => {
             {showUser && (
               <div className="absolute flex flex-col justify-center bg-white text-black items-center gap-2 rounded-lg -right-1 mt-3 w-50 border border-[#232A37] p-5 z-50">
                 <p className="text-xl font-semibold">{userData?.name}</p>
-                <button className="w-full flex justify-center items-center gap-3 p-2 hover:text-blue-700 bg-black/10 hover:bg-black/20 rounded-md font-semibold transition-all duration-200 cursor-pointer">
-                  <MdHistory size={20} />
-                  History
-                </button>
                 <button
                   onClick={handleLogout}
                   className="w-full flex justify-center items-center gap-3 p-2 hover:text-red-700 bg-black/10 hover:bg-black/20 rounded-md font-semibold transition-all duration-300 cursor-pointer">
