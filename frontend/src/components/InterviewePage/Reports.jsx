@@ -182,7 +182,7 @@ const Reports = ({ report }) => {
   };
 
   return (
-    <div className="min-h-screen mx-12 px-4 md:px-6 py-8 ">
+    <div className="min-h-screen mx-1 md:mx-12 px-4 md:px-6 py-8 ">
       <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-center">
         <div className=" w-full flex items-start md:items-center gap-4 flex-wrap">
           <button
@@ -191,8 +191,9 @@ const Reports = ({ report }) => {
             <FaArrowLeft />
           </button>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold flex-nowrap">
-              Interview Analytics Dashboard
+            <h1 className="flex gap-2.5 text-xl md:text-3xl font-bold flex-nowrap">
+              <span className="hidden md:block">Interview</span> Analytics
+              Dashboard
             </h1>
             <p className="mt-2 ml-1 text-sm text-gray-400 font-semibold">
               AI powered performance insights
@@ -201,7 +202,7 @@ const Reports = ({ report }) => {
         </div>
         <button
           onClick={downloadPDF}
-          className="text-sm md:text-base mt-5 font-bold bg-white hover:bg-white/85 cursor-pointer transition-all duration-300 text-black px-5 py-3 rounded-2xl text-nowrap">
+          className="w-full md:w-fit text-sm md:text-base mt-5 font-bold bg-white hover:bg-white/85 cursor-pointer transition-all duration-300 text-black px-5 py-3 rounded-2xl text-nowrap">
           Download PDF
         </button>
       </div>
@@ -319,7 +320,7 @@ const Reports = ({ report }) => {
               transition={{ duration: 0.5 }}
               className="rounded-xl border border-[#3b3440]/40 px-5 py-4"
               key={index}>
-              <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mb-4">
                 <div>
                   <p className="text-[12px] mb-2 text-gray-300/50">
                     Question {index + 1}
@@ -328,7 +329,7 @@ const Reports = ({ report }) => {
                     {q.question || "Question is not available"}
                   </p>
                 </div>
-                <div className="px-3 py-2 rounded-lg hover:bg-gray-100/5 ">
+                <div className="px-3 py-2 hidden md:block rounded-lg hover:bg-gray-100/5 ">
                   {q.score ?? 0}/10
                 </div>
               </div>

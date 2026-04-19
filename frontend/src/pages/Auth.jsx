@@ -71,7 +71,7 @@ const Auth = (isModel = false) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.5 }}
-          className="w-full flex items-center justify-center gap-3 py-3 bg-white text-lg text-black font-semibold rounded-2xl shadow-md">
+          className="w-full flex items-center justify-center gap-3 py-3 bg-white text-lg text-black font-semibold rounded-2xl shadow-md cursor-pointer">
           <FcGoogle size={22} />
           Continue with Google
         </motion.button>
