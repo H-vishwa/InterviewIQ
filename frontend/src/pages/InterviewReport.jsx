@@ -26,14 +26,14 @@ const InterviewReport = () => {
 
   if (!report) {
     return (
-      <div className="min-h-screen flex justify-center items-center ">
-        <p className="text-lg bg-[#08060d] p-10 rounded-2xl border border-[#3b3440]/30 ">
+      <div className="min-h-screen flex justify-center items-center bg-[#09090b]">
+        <p className="text-lg bg-[#121214] p-10 rounded-2xl border border-neutral-800">
           <ShinyText
             text="Loading Report..."
             speed={2}
             delay={0}
             color="#b5b5b5"
-            shineColor="#9810fa"
+            shineColor="#f2bf3f"
             spread={120}
             direction="left"
             yoyo={false}

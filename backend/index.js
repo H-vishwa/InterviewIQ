@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: "https://interviewiq-client-sw9d.onrender.com",
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true,
   }),
 );

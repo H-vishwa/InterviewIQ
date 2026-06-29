@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nova+Round&family=Playwrite+NZ+Basic:wght@100..400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
 
 * {
-  font-family: "Iosevka Charon Mono", monospace;
+  font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
   font-style: normal;
 }
 
@@ -230,4 +230,21 @@ body::-webkit-scrollbar-thumb {
       opacity: 0%;
       transform: translateX(-70%);
     }
+  }
+
+  /* Lenis Smooth Scroll Utilities */
+  html.lenis, html.lenis-scrolling {
+    scroll-behavior: auto !important;
+  }
+  
+  html.lenis-prevent {
+    overflow: hidden !important;
+  }
+  
+  .lenis-target {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }

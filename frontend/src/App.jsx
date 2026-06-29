@@ -8,12 +8,35 @@ import { setUserData } from "./redux/userSlice";
 import InterviewPage from "./pages/InterviewPage";
 import InterViewHistory from "./pages/InterViewHistory";
 import InterviewReport from "./pages/InterviewReport";
-import Pricing from "./pages/Pricing";
+import Lenis from "lenis";
 
-export const serverUrl = "https://interviewiq-4lnb.onrender.com";
+export const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 const App = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+    });
+
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {
@@ -31,20 +54,12 @@ const App = () => {
   }, [dispatch]);
   return (
     <div className="relative min-h-screen">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover -z-10">
-        <source src="bgVideo.mp4" type="video/mp4" />
-      </video>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/interview" element={<InterviewPage />} />
         <Route path="/history" element={<InterViewHistory />} />
-        <Route path="/pricing" element={<Pricing />} />
         <Route path="/report/:id" element={<InterviewReport />} />
       </Routes>
     </div>

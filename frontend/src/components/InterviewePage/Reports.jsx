@@ -19,14 +19,14 @@ import ShinyText from "../BitsComponents/ShinyText";
 const Reports = ({ report }) => {
   if (!report) {
     return (
-      <div className="min-h-screen flex justify-center items-center ">
-        <p className="text-lg bg-[#08060d] p-10 rounded-2xl border border-[#3b3440]/30 ">
+      <div className="min-h-screen flex justify-center items-center bg-[#09090b]">
+        <p className="text-lg bg-[#121214] p-10 rounded-2xl border border-neutral-800">
           <ShinyText
             text="Loading Report..."
             speed={2}
             delay={0}
             color="#b5b5b5"
-            shineColor="#9810fa"
+            shineColor="#f2bf3f"
             spread={120}
             direction="left"
             yoyo={false}
@@ -62,14 +62,14 @@ const Reports = ({ report }) => {
   let shortTagline = "";
 
   if (finalScore >= 8) {
-    performanceText = "Ready for job oppurtunities.";
+    performanceText = "Ready for job opportunities.";
     shortTagline = "Excellent clarity and structured responses.";
   } else if (finalScore >= 5) {
-    performanceText = "Needs minor improvements before Interviews.";
-    shortTagline = " Good foundation, Refine articulation.";
+    performanceText = "Needs minor improvements before interviews.";
+    shortTagline = "Good foundation, refine articulation.";
   } else {
-    performanceText = " Significant improvement required.";
-    shortTagline = " Work on clarity and confidence.";
+    performanceText = "Significant improvement required.";
+    shortTagline = "Work on clarity and confidence.";
   }
 
   const score = finalScore;
@@ -84,21 +84,21 @@ const Reports = ({ report }) => {
 
     let currentY = 25;
 
-    // =================TITLE===================
+    // ================= TITLE ===================
     doc.setFont("helvetica", "bold");
     doc.setFontSize(20);
-    doc.setTextColor(116, 34, 197);
+    doc.setTextColor(242, 191, 63); // Gold Theme
     doc.text("AI Interview Performance Report", pageWidth / 2, currentY, {
       align: "center",
     });
 
     currentY += 5;
-    doc.setDrawColor(116, 34, 197);
+    doc.setDrawColor(242, 191, 63);
     doc.line(margin, currentY + 2, pageWidth - margin, currentY + 2);
 
     currentY += 10;
 
-    doc.setFillColor(246, 240, 253);
+    doc.setFillColor(254, 252, 243); // Light gold tint
     doc.roundedRect(margin, currentY, contentWidth, 20, 4, 4, "F");
 
     doc.setFontSize(14);
@@ -108,7 +108,7 @@ const Reports = ({ report }) => {
     });
 
     currentY += 25;
-    doc.setFillColor(249, 250, 251);
+    doc.setFillColor(250, 250, 250);
     doc.roundedRect(margin, currentY, contentWidth, 30, 4, 4, "F");
     doc.setFontSize(12);
     doc.text(`Confidence: ${confidence}/10`, margin + 10, currentY + 10);
@@ -146,7 +146,6 @@ const Reports = ({ report }) => {
     currentY += 48;
 
     // question Table
-
     autoTable(doc, {
       startY: currentY,
       margin: { left: margin, right: margin },
@@ -163,8 +162,8 @@ const Reports = ({ report }) => {
         valign: "top",
       },
       headStyles: {
-        fillColor: [116, 34, 197],
-        textColor: 255,
+        fillColor: [242, 191, 63], // Gold header
+        textColor: [12, 12, 12],   // Dark text
         halign: "center",
       },
       columnStyles: {
@@ -174,7 +173,7 @@ const Reports = ({ report }) => {
         3: { cellWidth: "auto" }, // feedback
       },
       alternateRowStyles: {
-        fillColor: [249, 250, 251],
+        fillColor: [250, 250, 250],
       },
     });
 
@@ -182,83 +181,99 @@ const Reports = ({ report }) => {
   };
 
   return (
-    <div className="min-h-screen mx-1 md:mx-12 px-4 md:px-6 py-8 ">
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-center">
-        <div className=" w-full flex items-start md:items-center gap-4 flex-wrap">
+    <div className="min-h-screen relative w-full overflow-hidden bg-[#09090b] py-8 text-white font-sans">
+      {/* Background SVG Illustration matching landing page */}
+      <div 
+        className="absolute inset-0 bg-cover bg-[center_35%] z-0 pointer-events-none bg-[url('https://cdn.prod.website-files.com/67c4d233d927573fcfd45fce/67e0bb11a8c55a4c86b637ca_BG%20ILLO.svg')] opacity-20" 
+        aria-hidden="true"
+      />
+      <div 
+        className="absolute inset-0 bg-zinc-950/40 z-0 pointer-events-none" 
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 mx-1 md:mx-12 px-4 md:px-6">
+      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
           <button
             onClick={() => navigate("/history")}
-            className="mt-1 p-3 rounded-3xl transition bg-white text-black cursor-pointer hover:bg-white/80">
+            className="p-3 rounded-full transition bg-[#121214] border border-neutral-800 text-white cursor-pointer hover:bg-neutral-800"
+          >
             <FaArrowLeft />
           </button>
           <div>
-            <h1 className="flex gap-2.5 text-xl md:text-3xl font-bold flex-nowrap">
-              <span className="hidden md:block">Interview</span> Analytics
-              Dashboard
+            <h1 className="text-xl md:text-3xl font-medium tracking-tight text-white">
+              Interview Analytics Dashboard
             </h1>
-            <p className="mt-2 ml-1 text-sm text-gray-400 font-semibold">
+            <p className="mt-1 text-xs text-neutral-400 font-mono">
               AI powered performance insights
             </p>
           </div>
         </div>
+        
         <button
           onClick={downloadPDF}
-          className="w-full md:w-fit text-sm md:text-base mt-5 font-bold bg-white hover:bg-white/85 cursor-pointer transition-all duration-300 text-black px-5 py-3 rounded-2xl text-nowrap">
-          Download PDF
+          className="w-full md:w-fit text-xs font-bold uppercase tracking-wider bg-[#f2bf3f] hover:bg-[#d9ab2c] text-black px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer"
+        >
+          Download PDF Report
         </button>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-7">
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="space-y-6">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.5 }}
-            className="p-7 text-center rounded-3xl bg-[#08060d] border border-[#3b3440]/40 cursor-pointer">
-            <h3 className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+            className="p-7 text-center rounded-[1.5rem] bg-[#121214] border border-neutral-800 cursor-pointer shadow-lg"
+          >
+            <h3 className="text-neutral-400 mb-4 sm:mb-6 text-xs uppercase font-mono tracking-wider">
               Overall Performance
             </h3>
-            <div className="relative w-20 h-20  sm:w-22 sm:h-22 mx-auto mb-3">
+            <div className="relative w-20 h-20 sm:w-22 sm:h-22 mx-auto mb-3">
               <CircularProgressbar
                 value={percentage}
                 text={`${score}`}
                 styles={buildStyles({
-                  textSize: "15px",
-                  pathColor: "#4508a2db",
+                  textSize: "16px",
+                  pathColor: "#f2bf3f", // Gold
                   textColor: "#fff",
-                  trailColor: "#adb5bd",
+                  trailColor: "#27272a",
                 })}
               />
             </div>
-            <p className="text-gray-400 text-xs mb-3">Out of 10</p>
-            <div className="mt-4">
-              <p className="font-semibold">{performanceText}</p>
-              <p className="text-gray-500 text-sm mt-1">{shortTagline}</p>
+            <p className="text-neutral-500 text-xs mb-3 font-mono">Out of 10</p>
+            <div className="mt-4 border-t border-neutral-800/60 pt-4">
+              <p className="font-semibold text-white text-sm">{performanceText}</p>
+              <p className="text-neutral-400 text-xs mt-1 leading-relaxed">{shortTagline}</p>
             </div>
           </motion.div>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.5 }}
-            className="p-7  rounded-3xl bg-[#08060d] border border-[#3b3440]/40 cursor-pointer">
-            <h3 className="text-gray-300 font-bold mb-4 text-lg">
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+            className="p-7 rounded-[1.5rem] bg-[#121214] border border-neutral-800 cursor-pointer shadow-lg"
+          >
+            <h3 className="text-neutral-400 mb-6 text-xs uppercase font-mono tracking-wider">
               Skill Evaluation
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-5">
               {skills.map((item, index) => (
-                <div className="" key={index}>
-                  <div className="flex  justify-between">
-                    <span className="text-sm">{item.label}</span>
-                    <span className="text-sm font-semibold text-[#6634b1]">
-                      {item.value}
+                <div key={index}>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className="text-neutral-300">{item.label}</span>
+                    <span className="font-bold text-[#f2bf3f] font-mono">
+                      {item.value}/10
                     </span>
                   </div>
-                  <div className="bg-white rounded-full h-2 mt-1">
+                  <div className="bg-neutral-800 rounded-full h-2">
                     <div
-                      className="h-full rounded-full bg-[#4508a2db]"
-                      style={{ width: `${item.value * 10}%` }}></div>
+                      className="h-full rounded-full bg-[#f2bf3f]"
+                      style={{ width: `${item.value * 10}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -266,37 +281,45 @@ const Reports = ({ report }) => {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.5 }}
-            className="p-7  rounded-3xl bg-[#08060d] border border-[#3b3440]/40 cursor-pointer">
-            <h3 className="text-gray-300 font-bold mb-4 text-lg">
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.3 }}
+            className="p-7 rounded-[1.5rem] bg-[#121214] border border-neutral-800 cursor-pointer shadow-lg h-full"
+          >
+            <h3 className="text-neutral-400 mb-6 text-xs uppercase font-mono tracking-wider">
               Performance Trend
             </h3>
-            <div className="h-64 md:h-110">
-              <ResponsiveContainer width={"100%"} height={"100%"}>
+            <div className="h-64 md:h-96">
+              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={questionScoreData}>
-                  <CartesianGrid strokeDasharray={"3 3"} />
-                  <XAxis dataKey={"name"} />
-                  <YAxis domain={[0, 10]} />
+                  <defs>
+                    <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f2bf3f" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#f2bf3f" stopOpacity={0.0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+                  <XAxis dataKey="name" stroke="#71717a" fontSize={11} />
+                  <YAxis domain={[0, 10]} stroke="#71717a" fontSize={11} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#14121a",
-                      border: "1px solid rgba(0,0,0,0.15)",
-                      borderRadius: "8px",
+                      backgroundColor: "#0c0c0e",
+                      border: "1px solid #27272a",
+                      borderRadius: "12px",
+                      color: "#fff",
+                      fontSize: "12px"
                     }}
-                    labelStyle={{ color: "#fff" }}
-                    itemStyle={{ color: "#ccc" }}
+                    labelStyle={{ color: "#f2bf3f", fontWeight: "bold" }}
                   />
                   <Area
-                    type={"monotone"}
+                    type="monotone"
                     dataKey="score"
-                    stroke="#4508a2db"
-                    fill="#4608a27e"
+                    stroke="#f2bf3f"
+                    fillOpacity={1}
+                    fill="url(#colorScore)"
                     strokeWidth={3}
                   />
                 </AreaChart>
@@ -305,40 +328,42 @@ const Reports = ({ report }) => {
           </motion.div>
         </div>
       </div>
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="p-7  rounded-3xl bg-[#08060d] border border-[#3b3440]/40 cursor-pointer mt-10">
-        <h3 className="text-gray-300 font-bold mb-4 text-lg">
+        className="p-7 rounded-[1.5rem] bg-[#121214] border border-neutral-800 cursor-pointer mt-8 shadow-lg"
+      >
+        <h3 className="text-neutral-400 mb-6 text-xs uppercase font-mono tracking-wider">
           Question breakdown
         </h3>
         <div className="space-y-4">
           {questionWiseScore.map((q, index) => (
             <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.5 }}
-              className="rounded-xl border border-[#3b3440]/40 px-5 py-4"
-              key={index}>
-              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mb-4">
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.2 }}
+              className="rounded-xl border border-neutral-800 bg-[#09090b]/40 px-5 py-4"
+              key={index}
+            >
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
                 <div>
-                  <p className="text-[12px] mb-2 text-gray-300/50">
+                  <p className="text-[10px] uppercase font-mono tracking-wider mb-1 text-neutral-500">
                     Question {index + 1}
                   </p>
-                  <p className="font-semibold leading-relaxed text-gray-300">
+                  <p className="font-semibold text-neutral-200 text-sm">
                     {q.question || "Question is not available"}
                   </p>
                 </div>
-                <div className="px-3 py-2 hidden md:block rounded-lg hover:bg-gray-100/5 ">
-                  {q.score ?? 0}/10
+                <div className="px-3 py-1.5 rounded-lg border border-neutral-800 bg-[#121214] text-xs font-mono font-bold text-[#f2bf3f]">
+                  Score: {q.score ?? 0}/10
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg border-2 border-[#4508a2db]/30 bg-[#4508a2db]/5">
-                <p className="text-xs font-semibold mb-1 text-[#b27fff] ">
+              <div className="p-4 rounded-xl border border-[#f2bf3f]/15 bg-[#f2bf3f]/5">
+                <p className="text-[10px] uppercase font-mono tracking-wider mb-1 text-[#f2bf3f]">
                   AI Feedback
                 </p>
-                <p className="text-sm leading-relaxed">
+                <p className="text-xs text-neutral-300 leading-relaxed">
                   {q.feedback && q.feedback.trim() !== ""
                     ? q.feedback
                     : "No feedback available for this question"}
@@ -347,7 +372,8 @@ const Reports = ({ report }) => {
             </motion.div>
           ))}
         </div>
-      </motion.div>{" "}
+      </motion.div>
+      </div>
     </div>
   );
 };
