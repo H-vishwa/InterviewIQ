@@ -81,7 +81,7 @@ const Setup = ({ onStart }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="h-full flex items-center justify-center px-4 font-sans"
+      className="min-h-full py-12 flex items-center justify-center px-4 font-sans"
     >
       <div className="grid md:grid-cols-2 bg-[#09090b] rounded-[2rem] overflow-hidden w-full max-w-4xl border border-neutral-800 shadow-2xl">
         

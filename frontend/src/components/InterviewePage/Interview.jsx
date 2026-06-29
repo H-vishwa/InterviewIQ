@@ -304,9 +304,9 @@ const Interview = ({ interviewData, onFinish }) => {
 
   // HTML and CSS
   return (
-    <div className="h-full flex items-center justify-center p-4 sm:p-6 font-sans">
-      <div className="w-full max-w-6xl h-full md:h-[90vh] rounded-[2rem] bg-[#09090b] border border-neutral-800 flex flex-col md:flex-row overflow-hidden shadow-2xl">
-        <div className="w-full md:w-[30%] flex flex-col items-center justify-between p-6 space-y-6 border-r border-neutral-800 bg-[#121214]">
+    <div className="min-h-full py-12 flex items-center justify-center p-4 sm:p-6 font-sans">
+      <div className="w-full max-w-6xl min-h-full md:h-[90vh] rounded-[2rem] bg-[#09090b] border border-neutral-800 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden shadow-2xl">
+        <div className="w-full md:w-[30%] flex flex-col items-center justify-between p-6 space-y-6 border-b md:border-b-0 md:border-r border-neutral-800 bg-[#121214]">
           <div className="flex flex-col gap-4 w-full">
             <div className="w-full rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(242,191,63,0.1)] border border-neutral-800">
               <video

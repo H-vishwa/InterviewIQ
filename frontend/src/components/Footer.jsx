@@ -2,7 +2,7 @@ import logo from "../assets/interview_iq_logo.png";
 
 const Footer = () => {
   return (
-    <footer id="footer" className="w-full bg-black text-white pt-24 pb-36 border-t border-neutral-950 font-sans relative overflow-hidden">
+    <footer id="footer" className="w-full bg-black text-white pt-16 md:pt-24 pb-16 md:pb-36 border-t border-neutral-950 font-sans relative overflow-hidden">
 
       <div className="max-w-7xl mx-auto px-6 md:px-16 flex flex-col gap-16 relative z-10">
         
@@ -121,9 +121,9 @@ const Footer = () => {
         </div>
 
         {/* ── Footer Bottom Meta Row ── */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-12 border-t border-neutral-800/60 text-neutral-500 text-[10px] font-mono tracking-widest uppercase mt-8 relative z-10 mb-30">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-12 border-t border-neutral-800/60 text-neutral-500 text-[10px] font-mono tracking-widest uppercase mt-8 relative z-10">
           <span>© COPYRIGHT 2026 INTERVIEWIQ.AI</span>
-          <div className="flex gap-8">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <a href="#" className="hover:text-white transition-colors duration-200">TERMS OF SERVICE</a>
             <a href="#" className="hover:text-white transition-colors duration-200">PRIVACY POLICY</a>
             <a href="#" className="hover:text-white transition-colors duration-200">DATA PLATFORM TOS</a>

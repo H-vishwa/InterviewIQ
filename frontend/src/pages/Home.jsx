@@ -73,37 +73,43 @@ const Home = () => {
 
   return (
     <motion.div className="flex flex-col relative overflow-x-hidden min-h-screen">
+      {/* Sticky Blended Navbar */}
+      <Navbar />
+
       {/* ── Hero Section ── */}
       <section className="relative flex-1 overflow-hidden min-h-screen flex flex-col">
-        {/* Background SVG Illustration from reference (fully visible) */}
-        <div className="absolute inset-0 bg-cover bg-[center_35%] z-0 pointer-events-none bg-[url('https://cdn.prod.website-files.com/67c4d233d927573fcfd45fce/67e0bb11a8c55a4c86b637ca_BG%20ILLO.svg')] opacity-100" />
+        {/* Ambient Glowing Orbs */}
+        <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
+          {/* Orb 1: Gold/Amber */}
+          <div className="absolute top-1/4 left-1/4 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full bg-[#f2bf3f]/8 blur-[100px] md:blur-[140px] animate-blob" />
+          {/* Orb 2: Red */}
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] md:w-[700px] h-[400px] md:h-[700px] rounded-full bg-[#a83232]/8 blur-[110px] md:blur-[150px] animate-blob animation-delay-2000" />
+        </div>
+
+        {/* Background SVG Illustration (panning & zooming) */}
+        <div className="absolute inset-0 bg-cover bg-[center_35%] z-0 pointer-events-none bg-[url('https://cdn.prod.website-files.com/67c4d233d927573fcfd45fce/67e0bb11a8c55a4c86b637ca_BG%20ILLO.svg')] opacity-100 animate-pan-zoom" />
         {/* Soft gray overlay for blending without blocking visibility */}
         <div
-          className="absolute inset-0 bg-zinc-900/20 z-0"
+          className="absolute inset-0 bg-zinc-950/30 z-0 pointer-events-none"
           aria-hidden="true"
         />
 
-        {/* Blended Navbar */}
-        <div className="relative z-20 w-full">
-          <Navbar />
-        </div>
-
         {/* ── Headline & CTAs Container ── */}
-        <div className="relative z-10 flex flex-col justify-between flex-1 px-16 py-16 font-sans max-w-7xl mx-auto w-full">
+        <div className="relative z-10 flex flex-col justify-between flex-1 px-6 md:px-16 py-28 md:py-16 font-sans max-w-7xl mx-auto w-full">
           {/* Headline — allowed to grow fully across the width */}
-          <div className="flex-1 flex items-center md:pl-12 -mt-50">
-            <h1 className="font-semibold text-white text-7xl leading-[1.02] tracking-[-0.04em] font-sans">
+          <div className="flex-1 flex items-center md:pl-12 mt-8 md:-mt-20">
+            <h1 className="font-semibold text-white text-4xl sm:text-5xl md:text-7xl leading-[1.08] md:leading-[1.02] tracking-[-0.03em] md:tracking-[-0.04em] font-sans">
               <span className="inline-block">{renderAnimatedText("Smart mock interviews for")}</span>
               <br />
               <span className="inline-block">{renderAnimatedText("modern tech careers.")}</span>
               <br />
-              <span className="inline-flex h-[1.1em] overflow-hidden relative w-full [perspective:1000px]">
+              <span className="inline-flex h-[1.2em] overflow-hidden relative w-full [perspective:1000px]">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={rollingWords[wordIndex]}
-                    initial={{ rotateX: 85, y: 25, opacity: 0 }}
+                    initial={{ rotateX: 85, y: 20, opacity: 0 }}
                     animate={{ rotateX: 0, y: 0, opacity: 1 }}
-                    exit={{ rotateX: -85, y: -25, opacity: 0 }}
+                    exit={{ rotateX: -85, y: -20, opacity: 0 }}
                     transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                     className="text-[#f2bf3f] absolute left-0 origin-center"
                   >
@@ -115,7 +121,7 @@ const Home = () => {
           </div>
 
           {/* Subtitle & Buttons — pinned to the bottom-right */}
-          <div className="flex justify-end w-full mt-10 md:mt-0">
+          <div className="flex justify-start md:justify-end w-full mt-12 md:mt-0 md:pl-12">
             <div className="flex flex-col gap-6 max-w-md">
               <p className="hero-subtitle opacity-0 text-sm md:text-base text-white/60 leading-relaxed font-sans">
                 Role-Based mock interviews with Smart follow-ups, Adaptive

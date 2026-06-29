@@ -248,3 +248,43 @@ body::-webkit-scrollbar-thumb {
     width: 100%;
     height: 100%;
   }
+
+  /* Animated Hero Background Utilities */
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.95);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes pan-zoom {
+    0% {
+      transform: scale(1.02) translate(0px, 0px);
+    }
+    50% {
+      transform: scale(1.06) translate(8px, -4px);
+    }
+    100% {
+      transform: scale(1.02) translate(0px, 0px);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 16s infinite alternate ease-in-out;
+  }
+
+  .animate-pan-zoom {
+    animation: pan-zoom 25s infinite ease-in-out;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }

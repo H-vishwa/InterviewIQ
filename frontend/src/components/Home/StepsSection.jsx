@@ -127,9 +127,8 @@ const StepsSection = () => {
               </button>
             </div>
 
-            {/* Right Column: 3D Isometric Stack */}
-            <div className="flex justify-center items-center py-10 min-h-[320px] md:min-h-[400px]">
-              <div className="relative w-full max-w-[320px] md:max-w-[380px] h-[300px] md:h-[350px] [perspective:1000px] flex items-center justify-center lg:translate-x-50">
+            <div className="flex justify-center items-center py-10 min-h-[320px] md:min-h-[400px] w-full">
+              <div className="relative w-full max-w-[320px] md:max-w-[380px] h-[240px] md:h-[350px] [perspective:1000px] flex items-center justify-center scale-[0.55] xs:scale-[0.65] sm:scale-[0.8] md:scale-100 translate-x-22  xs:translate-x-70 sm:translate-x-44 lg:translate-x-50 origin-center">
                 <div className="relative w-full h-full [transform-style:preserve-3d] [transform:rotateX(52deg)_rotateZ(-45deg)] transition-all duration-700">
                   
                   {/* Bottom Layer (Setup) */}
