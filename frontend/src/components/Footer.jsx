@@ -1,4 +1,4 @@
-import logo from "../assets/interview_iq_logo.png";
+import logo from "../assets/interview_iq_logo.webp";
 
 const Footer = () => {
   return (
@@ -51,7 +51,10 @@ const Footer = () => {
                   placeholder="Enter your email" 
                   className="bg-transparent text-xs text-white placeholder-neutral-600 focus:outline-none flex-grow"
                 />
-                <button className="bg-[#121214] hover:bg-neutral-800 text-white rounded-full p-2 transition-colors cursor-pointer flex items-center justify-center shrink-0">
+                <button 
+                  aria-label="Subscribe to newsletter"
+                  className="bg-[#121214] hover:bg-neutral-800 text-white rounded-full p-2 transition-colors cursor-pointer flex items-center justify-center shrink-0"
+                >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>

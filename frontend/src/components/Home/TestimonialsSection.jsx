@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { SiGoogle, SiMeta, SiNetflix, SiStripe } from "react-icons/si";
 import { FaMicrosoft } from "react-icons/fa6";
 
-import developersImg from "../../assets/case_study_developers.png";
-import conferenceImg from "../../assets/case_study_conference.png";
+import developersImg from "../../assets/case_study_developers.webp";
+import conferenceImg from "../../assets/case_study_conference.webp";
 
 const TestimonialsSection = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -104,9 +104,9 @@ const TestimonialsSection = () => {
 
             {/* Credentials */}
             <div className="mt-6">
-              <h4 className="text-sm font-semibold text-white">
+              <h3 className="text-sm font-semibold text-white">
                 {testimonials[activeTab].name}
-              </h4>
+              </h3>
               <p className="text-xs text-neutral-400 mt-1">
                 {testimonials[activeTab].role}
               </p>
@@ -120,6 +120,7 @@ const TestimonialsSection = () => {
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
+                aria-label={`View testimonial from ${tab.name} at ${tab.company}`}
                 className={`flex flex-col items-center justify-center py-6 px-2 transition-all duration-300 border-t-2 relative ${
                   activeTab === idx
                     ? "bg-[#18181b]/60 text-white"
@@ -177,6 +178,8 @@ const TestimonialsSection = () => {
             <img 
               src={developersImg} 
               alt="Liam collaborating with developers" 
+              loading="lazy"
+              decoding="async"
               className="w-full h-[320px] object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
@@ -228,6 +231,8 @@ const TestimonialsSection = () => {
             <img 
               src={conferenceImg} 
               alt="InterviewIQ Stage Panel Presentation" 
+              loading="lazy"
+              decoding="async"
               className="w-full h-[320px] object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>

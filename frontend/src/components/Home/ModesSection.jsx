@@ -180,7 +180,7 @@ const ModesSection = () => {
               </p>
               <div className="flex justify-between items-center border-t border-neutral-100 pt-4 mt-2">
                 <div>
-                  <h5 className="text-xs font-semibold text-neutral-800">Chief Technology Officer</h5>
+                  <span className="block text-xs font-semibold text-neutral-800">Chief Technology Officer</span>
                   <p className="text-[10px] text-neutral-400">InterviewIQ Advisory Board</p>
                 </div>
                 <span className="text-[#a83232] font-mono text-xs font-bold">⟨ DIRECTIVE 01 ⟩</span>

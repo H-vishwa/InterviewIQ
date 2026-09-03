@@ -10,7 +10,7 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 import AuthModel from "./AuthModel";
-import logo from "../assets/interview_iq_logo.png";
+import logo from "../assets/interview_iq_logo.webp";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -85,9 +85,9 @@ const Navbar = () => {
         {/* Left Side: Logo & Brand name */}
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate("/")}>
           <img src={logo} alt="InterviewIQ Logo" className="w-8 h-8 rounded-lg object-contain border border-neutral-800 bg-neutral-950" />
-          <h1 className="text-base md:text-lg font-bold tracking-[0.12em] text-white uppercase font-sans">
+          <span className="text-base md:text-lg font-bold tracking-[0.12em] text-white uppercase font-sans">
             InterviewIQ
-          </h1>
+          </span>
         </div>
 
         {/* Right Side: Menu Dropdown Controller */}

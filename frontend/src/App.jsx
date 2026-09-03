@@ -1,16 +1,23 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Auth from "./pages/Auth";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserData } from "./redux/userSlice";
-import InterviewPage from "./pages/InterviewPage";
-import InterViewHistory from "./pages/InterViewHistory";
-import InterviewReport from "./pages/InterviewReport";
 import Lenis from "lenis";
 
+const Home = lazy(() => import("./pages/Home"));
+const Auth = lazy(() => import("./pages/Auth"));
+const InterviewPage = lazy(() => import("./pages/InterviewPage"));
+const InterViewHistory = lazy(() => import("./pages/InterViewHistory"));
+const InterviewReport = lazy(() => import("./pages/InterviewReport"));
+
 export const serverUrl = import.meta.env.VITE_SERVER_URL;
+
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#09090b]">
+    <div className="w-8 h-8 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
+  </div>
+);
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,14 +61,15 @@ const App = () => {
   }, [dispatch]);
   return (
     <div className="relative min-h-screen">
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/interview" element={<InterviewPage />} />
-        <Route path="/history" element={<InterViewHistory />} />
-        <Route path="/report/:id" element={<InterviewReport />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/interview" element={<InterviewPage />} />
+          <Route path="/history" element={<InterViewHistory />} />
+          <Route path="/report/:id" element={<InterviewReport />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

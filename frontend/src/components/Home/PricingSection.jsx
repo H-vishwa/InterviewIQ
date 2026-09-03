@@ -38,6 +38,27 @@ const PricingSection = () => {
     );
   }, []);
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        return resolve(true);
+      }
+      const existingScript = document.getElementById("razorpay-checkout-script");
+      if (existingScript) {
+        existingScript.addEventListener("load", () => resolve(true));
+        existingScript.addEventListener("error", () => resolve(false));
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = "razorpay-checkout-script";
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handlePayment = async (plan) => {
     if (!userData) {
       setShowAuth(true);
@@ -52,6 +73,13 @@ const PricingSection = () => {
 
     try {
       setLoadingPlan(plan.id);
+
+      const isLoaded = await loadRazorpayScript();
+      if (!isLoaded || !window.Razorpay) {
+        alert("Failed to initialize payment gateway. Please check your network and try again.");
+        setLoadingPlan(null);
+        return;
+      }
 
       const amount = plan.id === "basic" ? 100 : plan.id === "pro" ? 500 : 0;
       const result = await axios.post(

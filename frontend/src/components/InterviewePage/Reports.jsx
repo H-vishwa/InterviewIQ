@@ -17,6 +17,8 @@ import { autoTable } from "jspdf-autotable";
 import ShinyText from "../BitsComponents/ShinyText";
 
 const Reports = ({ report }) => {
+  const navigate = useNavigate();
+
   if (!report) {
     return (
       <div className="min-h-screen flex justify-center items-center bg-[#09090b]">
@@ -37,8 +39,6 @@ const Reports = ({ report }) => {
       </div>
     );
   }
-
-  const navigate = useNavigate();
   const {
     finalScore = 0,
     confidence = 0,
