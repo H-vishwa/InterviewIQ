@@ -22,7 +22,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   // Words that roll on the hero section matching the branding
-  const rollingWords = ["Adaptive", "Intelligent", "Interactive", "Immersive", "Insightful"];
+  const rollingWords = [
+    "Adaptive",
+    "Intelligent",
+    "Interactive",
+    "Immersive",
+    "Insightful",
+  ];
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
@@ -37,8 +43,7 @@ const Home = () => {
       <span
         key={idx}
         className="inline-block hero-letter"
-        style={{ display: char === " " ? "inline" : "inline-block" }}
-      >
+        style={{ display: char === " " ? "inline" : "inline-block" }}>
         {char === " " ? "\u00A0" : char}
       </span>
     ));
@@ -84,7 +89,7 @@ const Home = () => {
           </div>
 
           {/* Background SVG Illustration (panning & zooming) */}
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-[center_35%] z-0 pointer-events-none opacity-100 animate-pan-zoom"
             style={{ backgroundImage: `url(${bgIllo})` }}
           />
@@ -99,9 +104,13 @@ const Home = () => {
             {/* Headline — allowed to grow fully across the width */}
             <div className="flex-1 flex items-center md:pl-12 mt-8 md:-mt-20">
               <h1 className="font-semibold text-white text-4xl sm:text-5xl md:text-7xl leading-[1.08] md:leading-[1.02] tracking-[-0.03em] md:tracking-[-0.04em] font-sans">
-                <span className="inline-block">{renderAnimatedText("Smart mock interviews for")}</span>
+                <span className="inline-block">
+                  {renderAnimatedText("Smart mock interviews for")}
+                </span>
                 <br />
-                <span className="inline-block">{renderAnimatedText("modern tech careers.")}</span>
+                <span className="inline-block">
+                  {renderAnimatedText("modern tech careers.")}
+                </span>
                 <br />
                 <span className="inline-flex h-[1.2em] overflow-hidden relative w-full [perspective:1000px]">
                   <AnimatePresence mode="wait">
@@ -111,8 +120,7 @@ const Home = () => {
                       animate={{ rotateX: 0, y: 0, opacity: 1 }}
                       exit={{ rotateX: -85, y: -20, opacity: 0 }}
                       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                      className="text-[#f2bf3f] absolute left-0 origin-center"
-                    >
+                      className="text-[#f2bf3f] absolute left-0 origin-center">
                       {rollingWords[wordIndex]}
                     </motion.span>
                   </AnimatePresence>
@@ -138,8 +146,7 @@ const Home = () => {
                       }
                       navigate("/interview");
                     }}
-                    className="hero-cta-btn flex items-center gap-3 cursor-pointer font-bold text-xs tracking-wider uppercase pl-2.5 pr-6 py-2.5 rounded-full bg-[#f2bf3f] text-[#0c0c0c] font-sans transition-all duration-300 hover:scale-105"
-                  >
+                    className="hero-cta-btn flex items-center gap-3 cursor-pointer font-bold text-xs tracking-wider uppercase pl-2.5 pr-6 py-2.5 rounded-full bg-[#f2bf3f] text-[#0c0c0c] font-sans transition-all duration-300 hover:scale-105">
                     <div className="flex items-center justify-center bg-[#0c0c0c] text-white rounded-full w-7 h-7 font-bold text-sm">
                       →
                     </div>
@@ -155,8 +162,7 @@ const Home = () => {
                       }
                       navigate("/history");
                     }}
-                    className="hero-cta-btn flex items-center justify-center gap-2 cursor-pointer font-bold text-xs tracking-wider uppercase px-6 py-3.5 rounded-full border border-white/20 hover:border-white/50 text-white bg-white/5 font-sans transition-all duration-300 hover:bg-white/10"
-                  >
+                    className="hero-cta-btn flex items-center justify-center gap-2 cursor-pointer font-bold text-xs tracking-wider uppercase px-6 py-3.5 rounded-full border border-white/20 hover:border-white/50 text-white bg-white/5 font-sans transition-all duration-300 hover:bg-white/10">
                     View history
                   </button>
                 </div>
@@ -168,7 +174,9 @@ const Home = () => {
         {/* Rest of page */}
         <StepsSection />
 
-        <div id="features" className="max-w-7xl mx-auto w-full px-6 md:px-16 mt-28">
+        <div
+          id="features"
+          className="max-w-7xl mx-auto w-full px-6 md:px-16 mt-28">
           <FeatureSection />
         </div>
         <ModesSection />
