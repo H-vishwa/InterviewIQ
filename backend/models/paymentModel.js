@@ -21,6 +21,10 @@ const paymentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Indexes to speed up webhook/verification lookups and user payment histories
+paymentSchema.index({ userId: 1, createdAt: -1 });
+paymentSchema.index({ razorpayOrderId: 1 });
+
 const Payment = mongoose.model("Payment", paymentSchema);
 
 export default Payment;

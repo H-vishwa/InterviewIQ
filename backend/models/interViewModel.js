@@ -50,6 +50,9 @@ const interviewSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Compound index to drastically optimize history queries and dashboard lookups
+interviewSchema.index({ userId: 1, createdAt: -1 });
+
 const Interview = mongoose.model("Interview", interviewSchema);
 
 export default Interview;

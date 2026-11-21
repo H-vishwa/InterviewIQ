@@ -1,24 +1,29 @@
 // To check whether user is authorized or not
 import jwt from "jsonwebtoken";
+import ApiError from "../utils/ApiError.js";
 
 const isAuth = async (req, res, next) => {
   try {
-    let { token } = req.cookies;
+    const { token } = req.cookies;
     if (!token) {
-      return res.status(400).json({ message: "Unauthorized" });
+      throw new ApiError(401, "Authentication token is missing. Please log in.");
     }
-    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!verifyToken) {
-      return res
-        .status(400)
-        .json({ message: "User does not have valid token" });
+    let verifyToken;
+    try {
+      verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (jwtErr) {
+      throw new ApiError(401, "Invalid or expired session token. Please log in again.");
+    }
+
+    if (!verifyToken?.userId) {
+      throw new ApiError(401, "Token payload is invalid");
     }
 
     req.userId = verifyToken.userId;
     next();
   } catch (error) {
-    return res.status(400).json({ message: `isAuth error ${error}` });
+    next(error);
   }
 };
 

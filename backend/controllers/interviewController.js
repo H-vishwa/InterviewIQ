@@ -3,45 +3,58 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { askAi } from "../services/openRouterServices.js";
 import User from "../models/userModel.js";
 import Interview from "../models/interViewModel.js";
+import ApiError from "../utils/ApiError.js";
+import { parseAndValidateJson } from "../utils/aiSanitizer.js";
+import {
+  resumeStructuredSchema,
+  answerEvaluationSchema,
+} from "../validations/interviewValidation.js";
 
 // Function is Created to Analyze the resume
-export const analyzeInterview = async (req, res) => {
+export const analyzeInterview = async (req, res, next) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: "File required" });
+      throw new ApiError(400, "Resume file is required");
     }
 
     const filePath = req.file.path;
-
-    const fileBuffer = await fs.promises.readFile(filePath);
-    const uint8Array = new Uint8Array(fileBuffer);
-
-    const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
-
     let resumeText = "";
 
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const content = await page.getTextContent();
+    try {
+      const fileBuffer = await fs.promises.readFile(filePath);
+      const uint8Array = new Uint8Array(fileBuffer);
 
-      const pageText = content.items.map((item) => item.str).join(" ");
-      resumeText += pageText + "\n";
+      const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const content = await page.getTextContent();
+        const pageText = content.items.map((item) => item.str).join(" ");
+        resumeText += pageText + "\n";
+      }
+
+      resumeText = resumeText.replace(/\s+/g, " ").trim();
+    } finally {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
 
-    resumeText = resumeText.replace(/\s+/g, " ").trim();
+    if (!resumeText) {
+      throw new ApiError(400, "Could not extract text from the uploaded PDF resume");
+    }
 
     const messages = [
       {
         role: "system",
-        content: ` Extract structured data from resume.
+        content: `Extract structured data from resume. Return ONLY JSON matching this format:
         {
           "role": "string",
           "experience": "string",
           "projects": ["project1", "project2"],
           "skills": ["skill1", "skill2"]
-        } `,
+        }`,
       },
-
       {
         role: "user",
         content: resumeText,
@@ -49,9 +62,7 @@ export const analyzeInterview = async (req, res) => {
     ];
 
     const aiResponse = await askAi(messages);
-    const parsed = JSON.parse(aiResponse);
-
-    fs.unlinkSync(filePath);
+    const parsed = parseAndValidateJson(aiResponse, resumeStructuredSchema);
 
     res.json({
       role: parsed.role,
@@ -61,47 +72,32 @@ export const analyzeInterview = async (req, res) => {
       resumeText,
     });
   } catch (error) {
-    console.error(error);
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
-    }
-
-    return res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
 // Function is Created to generateQuestions
-export const generateQuestions = async (req, res) => {
+export const generateQuestions = async (req, res, next) => {
   try {
     let { role, experience, mode, resumeText, projects, skills } = req.body;
     role = role?.trim();
     experience = experience?.trim();
     mode = mode?.trim();
 
-    if (!role || !experience || !mode) {
-      return res.status(400).json({
-        message: "Role, Experience and Mode are required to continue",
-      });
-    }
-
     const user = await User.findById(req.userId);
     if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
+      throw new ApiError(404, "User not found");
     }
 
     if (user.credits < 50) {
-      return res.status(400).json({
-        message: "Not enough credits. Minimum 50 credits required",
-      });
+      throw new ApiError(400, "Not enough credits. Minimum 50 credits required");
     }
 
     const projectText =
       Array.isArray(projects) && projects.length ? projects.join(", ") : "None";
 
     const skillsText =
-      Array.isArray(skills) && projects.length ? skills.join(", ") : "None";
+      Array.isArray(skills) && skills.length ? skills.join(", ") : "None";
 
     const safeResume = resumeText?.trim() || "None";
 
@@ -113,10 +109,6 @@ export const generateQuestions = async (req, res) => {
     Skills:${skillsText},
     Resume:${safeResume},
     `;
-
-    if (!userPrompt.trim()) {
-      return res.status(400).json({ message: "Prompt content is empty" });
-    }
 
     const messages = [
       {
@@ -157,19 +149,17 @@ export const generateQuestions = async (req, res) => {
     const airesponse = await askAi(messages);
 
     if (!airesponse || !airesponse.trim()) {
-      return res.status(500).json({ message: "AI returned empty response." });
+      throw new ApiError(500, "AI returned empty response");
     }
 
     const questionArray = airesponse
       .split("\n")
-      .map((q) => q.trim())
+      .map((q) => q.replace(/^\d+[\.\)]\s*/, "").trim())
       .filter((q) => q.length > 0)
       .slice(0, 5);
 
     if (questionArray.length === 0) {
-      return res
-        .status(500)
-        .json({ message: "AI failed to generate questions." });
+      throw new ApiError(500, "AI failed to generate questions");
     }
 
     user.credits -= 50;
@@ -183,8 +173,8 @@ export const generateQuestions = async (req, res) => {
       resumeText: safeResume,
       questions: questionArray.map((q, index) => ({
         question: q,
-        difficulty: ["easy", "medium", "medium", "hard", "hard"][index],
-        timeLimit: [60, 90, 90, 120, 120][index],
+        difficulty: ["easy", "medium", "medium", "hard", "hard"][index] || "medium",
+        timeLimit: [60, 90, 90, 120, 120][index] || 90,
       })),
     });
 
@@ -195,20 +185,24 @@ export const generateQuestions = async (req, res) => {
       questions: interview.questions,
     });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ message: `Failed to create interview ${error}` });
+    next(error);
   }
 };
 
 // Function is Created to submitAnswer
-export const submitAnswer = async (req, res) => {
+export const submitAnswer = async (req, res, next) => {
   try {
     const { interviewId, questionIndex, answer, timeTaken } = req.body;
 
     const interview = await Interview.findById(interviewId);
+    if (!interview) {
+      throw new ApiError(404, "Interview not found");
+    }
+
     const question = interview.questions[questionIndex];
+    if (!question) {
+      throw new ApiError(400, "Invalid question index");
+    }
 
     if (!answer) {
       question.score = 0;
@@ -284,7 +278,7 @@ export const submitAnswer = async (req, res) => {
     ];
 
     const aiResponse = await askAi(messages);
-    const parsed = JSON.parse(aiResponse);
+    const parsed = parseAndValidateJson(aiResponse, answerEvaluationSchema);
 
     question.answer = answer;
     question.confidence = parsed.confidence;
@@ -296,20 +290,18 @@ export const submitAnswer = async (req, res) => {
 
     return res.status(200).json({ feedback: parsed.feedback });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: `failed to submit answer ${error} ` });
+    next(error);
   }
 };
 
 // Function is Created to finishInterview
-export const finishInterview = async (req, res) => {
+export const finishInterview = async (req, res, next) => {
   try {
     const { interviewId } = req.body;
     const interview = await Interview.findById(interviewId);
 
     if (!interview) {
-      return res.status(400).json({ message: "Failed to find interview" });
+      throw new ApiError(404, "Interview not found");
     }
 
     const totalQuestions = interview.questions.length;
@@ -335,7 +327,7 @@ export const finishInterview = async (req, res) => {
       ? totalCorrectness / totalQuestions
       : 0;
 
-    interview.finalScore = finalScore;
+    interview.finalScore = Number(finalScore.toFixed(1));
     interview.status = "Completed";
 
     await interview.save();
@@ -355,14 +347,12 @@ export const finishInterview = async (req, res) => {
       })),
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: `Failed to finish interview ${error} ` });
+    next(error);
   }
 };
 
 // Function is Created to get the finished interview for reports
-export const getMyInterviews = async (req, res) => {
+export const getMyInterviews = async (req, res, next) => {
   try {
     const interviews = await Interview.find({ userId: req.userId })
       .sort({
@@ -372,18 +362,16 @@ export const getMyInterviews = async (req, res) => {
 
     return res.status(200).json(interviews);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: `Failed to find Interview ${error}` });
+    next(error);
   }
 };
 
 // This function is created to get interview reports
-export const getInterviewReports = async (req, res) => {
+export const getInterviewReports = async (req, res, next) => {
   try {
     const interview = await Interview.findById(req.params.id);
     if (!interview) {
-      return res.status(404).json({ message: "Interview not found" });
+      throw new ApiError(404, "Interview not found");
     }
 
     const totalQuestions = interview.questions.length;
@@ -414,8 +402,6 @@ export const getInterviewReports = async (req, res) => {
       questionWiseScore: interview.questions,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: `Failed to find Interview Report ${error}` });
+    next(error);
   }
 };
